@@ -1,37 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Auto Refresh URL - Never Stop</title>
+    <title>AI Auto Refresh - Neural Network Interface</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <div class="theme-toggle">
+        <button id="themeBtn" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
     <div class="container">
-        <h2>Auto Refresh URL - Never Stop Version</h2>
-        <p>Select a URL from the dropdown or add a new one. The selected URL will refresh automatically forever.</p>
-        
-        <div class="url-section">
-            <label for="urlSelect">Select URL:</label>
-            <select id="urlSelect" onchange="updateSelectedUrl()">
-                <option value="https://github.com/raushankumar620">GitHub Profile</option>
-                <option value="https://www.google.com">Google</option>
-                <option value="https://www.youtube.com">YouTube</option>
-            </select>
-            <button onclick="deleteSelectedUrl()" class="delete-btn">🗑️ Delete Selected</button>
+        <div class="header-section">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>AI AutoRefresh</h1>
+            </div>
+            <p class="subtitle">Neural Network URL Monitoring System</p>
+            <div class="status-indicator">
+                <span class="pulse-dot"></span>
+                <span>System Ready</span>
+            </div>
         </div>
 
-        <div class="add-url-section">
-            <h3>Add New URL</h3>
-            <input type="text" id="newUrlInput" placeholder="Enter new URL (e.g., https://example.com)" />
-            <input type="text" id="newUrlName" placeholder="Enter display name" />
-            <button onclick="addNewUrl()" class="add-btn">➕ Add URL</button>
+        <div class="control-panel">
+            <div class="section-card url-section">
+                <div class="section-header">
+                    <i class="fas fa-link"></i>
+                    <h3>Target Selection</h3>
+                </div>
+                <div class="input-group">
+                    <select id="urlSelect" onchange="updateSelectedUrl()">
+                        <option value="https://github.com/rksingh1713">My GitHub Profile</option>
+                    </select>
+                    <button onclick="deleteSelectedUrl()" class="btn btn-danger">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="section-card add-url-section">
+                <div class="section-header">
+                    <i class="fas fa-plus-circle"></i>
+                    <h3>Add New Target</h3>
+                </div>
+                <div class="form-grid">
+                    <input type="text" id="newUrlInput" placeholder="https://example.com" class="input-field" />
+                    <input type="text" id="newUrlName" placeholder="Display Name" class="input-field" />
+                    <button onclick="addNewUrl()" class="btn btn-primary full-width">
+                        <i class="fas fa-plus"></i> Deploy Target
+                    </button>
+                </div>
+            </div>
+
+            <div class="action-section">
+                <button id="startBtn" class="btn btn-success btn-large" onclick="startAutoRefresh()">
+                    <i class="fas fa-rocket"></i>
+                    <span>Initialize Protocol</span>
+                </button>
+                <button id="stopBtn" class="btn btn-warning btn-large" onclick="stopAutoRefresh()">
+                    <i class="fas fa-stop"></i>
+                    <span>Terminate Process</span>
+                </button>
+            </div>
+
+            <div class="status-section">
+                <div class="status-card">
+                    <div id="status" class="status-text"></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <button id="startBtn" class="start-btn" onclick="startAutoRefresh()">🚀 Start Auto Refresh</button>
-        <button id="stopBtn" class="stop-btn" onclick="stopAutoRefresh()">⏹️ Stop Auto Refresh</button>
-        
-        <div id="status" class="status"></div>
+
+        <div class="footer">
+            <div class="tech-info">
+                <span><i class="fas fa-code"></i> Neural Engine v2.0</span>
+                <span><i class="fas fa-shield-alt"></i> Secure Protocol</span>
+                <span><i class="fas fa-infinity"></i> Infinite Loop</span>
+            </div>
+        </div>
     </div>
+
+    <div class="background-animation">
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

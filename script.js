@@ -1,7 +1,37 @@
 let newWindow = null;
 let refreshInterval = null;
 let isRunning = false;
-let selectedUrl = "https://github.com/raushankumar620"; // Default URL
+let selectedUrl = "https://github.com/rksingh1713"; // Default URL
+
+// Theme Management
+function toggleTheme() {
+    const body = document.body;
+    const themeBtn = document.getElementById('themeBtn');
+    const currentTheme = body.getAttribute('data-theme');
+    
+    if (currentTheme === 'light') {
+        body.setAttribute('data-theme', 'dark');
+        themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+        localStorage.setItem('theme', 'dark');
+    } else {
+        body.setAttribute('data-theme', 'light');
+        themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const body = document.body;
+    const themeBtn = document.getElementById('themeBtn');
+    
+    body.setAttribute('data-theme', savedTheme);
+    if (savedTheme === 'light') {
+        themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
+    } else {
+        themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+}
 
 function updateSelectedUrl() {
     const urlSelect = document.getElementById('urlSelect');
@@ -25,20 +55,20 @@ function addNewUrl() {
     const name = newUrlName.value.trim();
     
     if (url === '' || name === '') {
-        alert('Please enter both URL and display name');
+        showNotification('Please enter both URL and display name', 'error');
         return;
     }
     
     // Basic URL validation
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        alert('URL must start with http:// or https://');
+        showNotification('URL must start with http:// or https://', 'error');
         return;
     }
     
     // Check if URL already exists
     for (let i = 0; i < urlSelect.options.length; i++) {
         if (urlSelect.options[i].value === url) {
-            alert('This URL already exists in the list!');
+            showNotification('This URL already exists in the list!', 'error');
             return;
         }
     }
@@ -57,7 +87,7 @@ function addNewUrl() {
     newUrlInput.value = '';
     newUrlName.value = '';
     
-    alert('URL added successfully!');
+    showNotification('Target deployed successfully!', 'success');
 }
 
 function deleteSelectedUrl() {
@@ -66,7 +96,7 @@ function deleteSelectedUrl() {
     
     // Check if there are enough options to delete
     if (urlSelect.options.length <= 1) {
-        alert('Cannot delete! At least one URL must remain in the list.');
+        showNotification('Cannot delete! At least one target must remain active.', 'error');
         return;
     }
     
@@ -74,7 +104,7 @@ function deleteSelectedUrl() {
     const selectedOptionText = urlSelect.options[selectedIndex].text;
     
     // Confirm deletion
-    if (!confirm(`Are you sure you want to delete "${selectedOptionText}"?`)) {
+    if (!confirm(`Are you sure you want to terminate "${selectedOptionText}"?`)) {
         return;
     }
     
@@ -92,7 +122,7 @@ function deleteSelectedUrl() {
         updateSelectedUrl();
     }
     
-    alert(`"${selectedOptionText}" has been deleted successfully!`);
+    showNotification(`"${selectedOptionText}" has been terminated successfully!`, 'success');
 }
 
 function openOrReopen(url) {
@@ -124,6 +154,7 @@ function startAutoRefresh() {
 
     isRunning = true;
     updateStatus();
+    showNotification('Neural protocol initialized successfully!', 'success');
 }
 
 function stopAutoRefresh() {
@@ -135,6 +166,7 @@ function stopAutoRefresh() {
     newWindow = null;
     isRunning = false;
     updateStatus();
+    showNotification('Process terminated successfully!', 'warning');
 }
 
 function updateStatus() {
@@ -142,25 +174,88 @@ function updateStatus() {
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
     const urlSelect = document.getElementById('urlSelect');
+    const statusCard = document.querySelector('.status-card');
 
     if (isRunning) {
         const selectedOptionText = urlSelect.options[urlSelect.selectedIndex].text;
-        statusElement.textContent = `✅ Auto refresh is running for "${selectedOptionText}" - will never stop`;
-        statusElement.style.color = "green";
+        statusElement.textContent = `🔄 Neural protocol active for "${selectedOptionText}" - Infinite loop engaged`;
+        statusElement.className = 'status-text status-running';
         startBtn.disabled = true;
         stopBtn.disabled = false;
         urlSelect.disabled = true;
+        statusCard.classList.add('active');
+        
+        // Update button text
+        startBtn.innerHTML = '<i class="fas fa-rocket"></i><span>Protocol Active</span>';
+        stopBtn.innerHTML = '<i class="fas fa-stop"></i><span>Terminate Process</span>';
     } else {
-        statusElement.textContent = "❌ Auto refresh is stopped";
-        statusElement.style.color = "red";
+        statusElement.textContent = "⚡ System ready - Awaiting neural protocol initialization";
+        statusElement.className = 'status-text status-stopped';
         startBtn.disabled = false;
         stopBtn.disabled = true;
         urlSelect.disabled = false;
+        statusCard.classList.remove('active');
+        
+        // Update button text
+        startBtn.innerHTML = '<i class="fas fa-rocket"></i><span>Initialize Protocol</span>';
+        stopBtn.innerHTML = '<i class="fas fa-stop"></i><span>Process Terminated</span>';
     }
 }
 
+function showNotification(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: ${type === 'success' ? 'var(--accent-color)' : type === 'error' ? 'var(--danger-color)' : 'var(--warning-color)'};
+        color: white;
+        padding: 15px 25px;
+        border-radius: 10px;
+        z-index: 1000;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: slideIn 0.3s ease;
+    `;
+    notification.textContent = message;
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Add CSS for notification animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateX(-50%) translateY(0); opacity: 1; }
+        to { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+
 // Initialize on page load
 window.onload = function() {
+    initializeTheme();
     updateSelectedUrl();
     updateStatus();
+    
+    // Add some startup effects
+    setTimeout(() => {
+        showNotification('AI AutoRefresh System Online', 'success');
+    }, 500);
 };
