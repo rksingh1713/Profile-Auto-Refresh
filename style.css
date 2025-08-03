@@ -41,6 +41,11 @@ body {
     position: relative;
     overflow-x: hidden;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
 }
 
 /* Theme Toggle Button */
@@ -107,6 +112,35 @@ body {
     padding: 15px;
     position: relative;
     z-index: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: fit-content;
+}
+
+/* Large Monitor Centering */
+@media (min-width: 1920px) {
+    body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 20px 0;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: auto;
+    }
+}
+
+/* Ultra-wide Monitor Support */
+@media (min-width: 2560px) {
+    .container {
+        max-width: 1400px;
+        transform: scale(1.1);
+        transform-origin: center;
+    }
 }
 
 /* Header Section */
@@ -433,9 +467,17 @@ select:focus {
 
 /* Responsive Design */
 @media (max-width: 1366px) {
+    body {
+        display: block;
+        align-items: unset;
+        justify-content: unset;
+        padding: 0;
+    }
+    
     .container {
         max-width: 950px;
         padding: 12px;
+        margin-top: 0;
     }
     
     .header-section {
@@ -462,6 +504,12 @@ select:focus {
 }
 
 @media (max-width: 768px) {
+    body {
+        display: block;
+        align-items: unset;
+        justify-content: unset;
+    }
+    
     .container {
         padding: 10px;
     }
