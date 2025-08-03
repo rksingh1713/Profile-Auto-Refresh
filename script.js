@@ -3,6 +3,11 @@ let refreshInterval = null;
 let isRunning = false;
 let selectedUrl = "https://github.com/rksingh1713"; // Default URL
 
+// Protected URLs that cannot be deleted
+const protectedUrls = [
+    "https://github.com/rksingh1713"
+];
+
 // Theme Management
 function toggleTheme() {
     const body = document.body;
@@ -36,6 +41,9 @@ function initializeTheme() {
 function updateSelectedUrl() {
     const urlSelect = document.getElementById('urlSelect');
     selectedUrl = urlSelect.value;
+    
+    // Update delete button state when URL changes
+    updateDeleteButtonState();
     
     // If auto refresh is running, stop it and restart with new URL
     if (isRunning) {
@@ -93,6 +101,13 @@ function addNewUrl() {
 function deleteSelectedUrl() {
     const urlSelect = document.getElementById('urlSelect');
     const selectedIndex = urlSelect.selectedIndex;
+    const selectedUrl = urlSelect.value;
+    
+    // Check if the selected URL is protected
+    if (protectedUrls.includes(selectedUrl)) {
+        showNotification('Cannot delete protected URL! This is a system default target.', 'error');
+        return;
+    }
     
     // Check if there are enough options to delete
     if (urlSelect.options.length <= 1) {
@@ -109,7 +124,7 @@ function deleteSelectedUrl() {
     }
     
     // If auto refresh is running for this URL, stop it
-    if (isRunning && selectedUrl === urlSelect.value) {
+    if (isRunning && this.selectedUrl === urlSelect.value) {
         stopAutoRefresh();
     }
     
@@ -253,9 +268,27 @@ window.onload = function() {
     initializeTheme();
     updateSelectedUrl();
     updateStatus();
+    updateDeleteButtonState();
     
     // Add some startup effects
     setTimeout(() => {
         showNotification('AI AutoRefresh System Online', 'success');
     }, 500);
 };
+
+// Function to update delete button state based on selection
+function updateDeleteButtonState() {
+    const urlSelect = document.getElementById('urlSelect');
+    const deleteBtn = document.querySelector('.btn-danger');
+    const selectedUrl = urlSelect.value;
+    
+    if (protectedUrls.includes(selectedUrl)) {
+        deleteBtn.disabled = true;
+        deleteBtn.style.opacity = '1';
+        deleteBtn.title = 'Cannot delete protected system URL';
+    } else {
+        deleteBtn.disabled = false;
+        deleteBtn.style.opacity = '1';
+        deleteBtn.title = 'Delete selected URL';
+    }
+}
