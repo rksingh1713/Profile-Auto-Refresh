@@ -413,16 +413,22 @@ select:focus {
 .tech-info {
     display: flex;
     justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: nowrap;
     color: var(--text-secondary);
     font-size: 13px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0 10px;
 }
 
 .tech-info span {
     display: flex;
     align-items: center;
     gap: 6px;
+    flex-shrink: 0;
+    font-size: 12px;
 }
 
 /* Responsive Design */
@@ -490,8 +496,20 @@ select:focus {
     }
 
     .tech-info {
-        flex-direction: column;
-        gap: 12px;
+        flex-direction: row;
+        gap: 10px;
+        font-size: 11px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0 5px;
+    }
+    
+    .tech-info span {
+        font-size: 10px;
+        flex-shrink: 0;
+        white-space: nowrap;
     }
 
     .theme-toggle {
@@ -526,6 +544,26 @@ select:focus {
     .btn-large {
         padding: 12px 20px;
         font-size: 14px;
+    }
+    
+    .tech-info {
+        gap: 8px;
+        font-size: 10px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 0 5px;
+    }
+    
+    .tech-info span {
+        font-size: 9px;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+    
+    .tech-info i {
+        font-size: 8px;
     }
 }
 
