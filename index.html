@@ -7,8 +7,25 @@
 </head>
 <body>
     <div class="container">
-        <h2>GitHub Profile Auto Refresh - Never Stop Version</h2>
-        <p>This script opens your GitHub profile in a new tab and refreshes it forever. If the tab is closed, it will reopen automatically.</p>
+        <h2>Auto Refresh URL - Never Stop Version</h2>
+        <p>Select a URL from the dropdown or add a new one. The selected URL will refresh automatically forever.</p>
+        
+        <div class="url-section">
+            <label for="urlSelect">Select URL:</label>
+            <select id="urlSelect" onchange="updateSelectedUrl()">
+                <option value="https://github.com/raushankumar620">GitHub Profile</option>
+                <option value="https://www.google.com">Google</option>
+                <option value="https://www.youtube.com">YouTube</option>
+            </select>
+            <button onclick="deleteSelectedUrl()" class="delete-btn">🗑️ Delete Selected</button>
+        </div>
+
+        <div class="add-url-section">
+            <h3>Add New URL</h3>
+            <input type="text" id="newUrlInput" placeholder="Enter new URL (e.g., https://example.com)" />
+            <input type="text" id="newUrlName" placeholder="Enter display name" />
+            <button onclick="addNewUrl()" class="add-btn">➕ Add URL</button>
+        </div>
         
         <button id="startBtn" class="start-btn" onclick="startAutoRefresh()">🚀 Start Auto Refresh</button>
         <button id="stopBtn" class="stop-btn" onclick="stopAutoRefresh()">⏹️ Stop Auto Refresh</button>

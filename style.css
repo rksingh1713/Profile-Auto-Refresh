@@ -33,7 +33,74 @@ button {
     color: white;
 }
 
+.add-btn {
+    background-color: #2196F3;
+    color: white;
+    font-size: 14px;
+    padding: 8px 16px;
+}
+
+.delete-btn {
+    background-color: #ff6b6b;
+    color: white;
+    font-size: 14px;
+    padding: 8px 16px;
+    margin-left: 10px;
+}
+
+.delete-btn:hover {
+    background-color: #ff5252;
+}
+
 .status {
     margin-top: 20px;
     font-weight: bold;
+}
+
+.url-section {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.url-section label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.url-section select {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-url-section {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f0f8ff;
+}
+
+.add-url-section h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.add-url-section input {
+    width: 45%;
+    padding: 10px;
+    margin: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-url-section input[type="text"] {
+    display: inline-block;
 }
