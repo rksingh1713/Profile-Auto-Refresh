@@ -3,110 +3,7 @@
 <head>
     <title>Auto Refresh URL - Never Stop</title>
     <meta charset="UTF-8">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-            background-color: #f0f0f0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .start-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .stop-btn {
-            background-color: #f44336;
-            color: white;
-        }
-        .status {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-    </style>
-    <script>
-        let newWindow = null;
-        let refreshInterval = null;
-        let isRunning = false;
-
-        function openOrReopen(url) {
-            // If tab is closed → open again
-            if (!newWindow || newWindow.closed) {
-                newWindow = window.open(url, "_blank");
-            }
-        }
-
-        function startAutoRefresh() {
-            if (isRunning) return;
-            const url = "https://github.com/raushankumar620";
-            
-            openOrReopen(url);
-
-            refreshInterval = setInterval(() => {
-                try {
-                    // If tab is open → refresh it
-                    if (newWindow && !newWindow.closed) {
-                        newWindow.location.href = url;
-                    } else {
-                        // Tab closed → reopen it
-                        openOrReopen(url);
-                    }
-                } catch (e) {
-                    // Cross-origin issue → just reopen the tab
-                    openOrReopen(url);
-                }
-            }, 1000); // refresh every 1 second
-
-            isRunning = true;
-            updateStatus();
-        }
-
-        function stopAutoRefresh() {
-            clearInterval(refreshInterval);
-            refreshInterval = null;
-            if (newWindow && !newWindow.closed) {
-                newWindow.close();
-            }
-            newWindow = null;
-            isRunning = false;
-            updateStatus();
-        }
-
-        function updateStatus() {
-            const statusElement = document.getElementById('status');
-            const startBtn = document.getElementById('startBtn');
-            const stopBtn = document.getElementById('stopBtn');
-
-            if (isRunning) {
-                statusElement.textContent = "✅ Auto refresh is running - will never stop";
-                statusElement.style.color = "green";
-                startBtn.disabled = true;
-                stopBtn.disabled = false;
-            } else {
-                statusElement.textContent = "❌ Auto refresh is stopped";
-                statusElement.style.color = "red";
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-            }
-        }
-
-        window.onload = updateStatus;
-    </script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -118,5 +15,6 @@
         
         <div id="status" class="status"></div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
