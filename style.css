@@ -102,9 +102,9 @@ body {
 
 /* Container */
 .container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 15px;
     position: relative;
     z-index: 1;
 }
@@ -112,43 +112,43 @@ body {
 /* Header Section */
 .header-section {
     text-align: center;
-    margin-bottom: 40px;
-    padding: 40px 20px;
+    margin-bottom: 25px;
+    padding: 25px 15px;
     background: var(--secondary-bg);
-    border-radius: 20px;
+    border-radius: 15px;
     border: 2px solid var(--border-color);
-    box-shadow: 0 10px 30px var(--shadow-color);
+    box-shadow: 0 8px 20px var(--shadow-color);
 }
 
 .logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    margin-bottom: 15px;
+    gap: 12px;
+    margin-bottom: 10px;
 }
 
 .logo i {
-    font-size: 48px;
+    font-size: 32px;
     color: var(--accent-color);
     animation: pulse 2s ease-in-out infinite;
 }
 
 .logo h1 {
-    font-size: 3rem;
+    font-size: 2.2rem;
     font-weight: 700;
     background: linear-gradient(45deg, var(--accent-color), var(--warning-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 30px var(--glow-color);
+    text-shadow: 0 0 20px var(--glow-color);
 }
 
 .subtitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: var(--text-secondary);
-    margin-bottom: 20px;
-    letter-spacing: 2px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
@@ -156,8 +156,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    font-size: 14px;
+    gap: 8px;
+    font-size: 13px;
     color: var(--accent-color);
 }
 
@@ -177,74 +177,94 @@ body {
 /* Control Panel */
 .control-panel {
     display: grid;
-    gap: 30px;
-    grid-template-columns: 1fr;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "url-section add-section"
+        "action-section action-section"
+        "status-section status-section";
+}
+
+.url-section {
+    grid-area: url-section;
+}
+
+.add-url-section {
+    grid-area: add-section;
+}
+
+.action-section {
+    grid-area: action-section;
+}
+
+.status-section {
+    grid-area: status-section;
 }
 
 .section-card {
     background: var(--card-bg);
-    border-radius: 15px;
-    padding: 25px;
+    border-radius: 12px;
+    padding: 18px;
     border: 2px solid var(--border-color);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
 
 .section-card:hover {
     border-color: var(--accent-color);
-    box-shadow: 0 8px 25px var(--shadow-color);
-    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--shadow-color);
+    transform: translateY(-1px);
 }
 
 .section-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 15px;
     color: var(--accent-color);
 }
 
 .section-header i {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .section-header h3 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 600;
 }
 
 /* Input Groups */
 .input-group {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
 }
 
 .input-field {
     flex: 1;
-    padding: 15px;
+    padding: 12px;
     background: var(--secondary-bg);
     border: 2px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 8px;
     color: var(--text-primary);
-    font-size: 16px;
+    font-size: 14px;
     transition: all 0.3s ease;
 }
 
 .input-field:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 15px var(--glow-color);
+    box-shadow: 0 0 10px var(--glow-color);
 }
 
 select {
     flex: 1;
-    padding: 15px;
+    padding: 12px;
     background: var(--secondary-bg);
     border: 2px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 8px;
     color: var(--text-primary);
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -252,14 +272,14 @@ select {
 select:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 15px var(--glow-color);
+    box-shadow: 0 0 10px var(--glow-color);
 }
 
 /* Form Grid */
 .form-grid {
     display: grid;
-    gap: 15px;
-    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    grid-template-columns: 1fr;
 }
 
 .full-width {
@@ -268,25 +288,25 @@ select:focus {
 
 /* Buttons */
 .btn {
-    padding: 15px 25px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
+    border-radius: 8px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.5px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
 }
 
 .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn:active {
@@ -311,15 +331,15 @@ select:focus {
 .btn-danger {
     background: linear-gradient(45deg, var(--danger-color), #ff3838);
     color: white;
-    padding: 15px;
-    width: 55px;
-    height: 55px;
+    padding: 12px;
+    width: 45px;
+    height: 45px;
 }
 
 .btn-large {
-    padding: 20px 40px;
-    font-size: 18px;
-    border-radius: 15px;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 10px;
 }
 
 .btn:disabled {
@@ -332,36 +352,36 @@ select:focus {
 .action-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 15px;
 }
 
 /* Status Section */
 .status-section {
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 .status-card {
     background: var(--card-bg);
-    border-radius: 15px;
-    padding: 25px;
+    border-radius: 12px;
+    padding: 18px;
     border: 2px solid var(--border-color);
     text-align: center;
 }
 
 .status-text {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 600;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: var(--text-primary);
 }
 
 .progress-bar {
     width: 100%;
-    height: 8px;
+    height: 6px;
     background: var(--border-color);
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 .progress-fill {
@@ -369,7 +389,7 @@ select:focus {
     background: linear-gradient(90deg, var(--accent-color), var(--warning-color));
     width: 0%;
     transition: width 0.3s ease;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
 .status-card.active .progress-fill {
@@ -384,35 +404,73 @@ select:focus {
 
 /* Footer */
 .footer {
-    margin-top: 50px;
+    margin-top: 25px;
     text-align: center;
-    padding: 30px;
+    padding: 20px;
     border-top: 2px solid var(--border-color);
 }
 
 .tech-info {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 25px;
     flex-wrap: wrap;
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .tech-info span {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 /* Responsive Design */
+@media (max-width: 1366px) {
+    .container {
+        max-width: 950px;
+        padding: 12px;
+    }
+    
+    .header-section {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+    
+    .logo h1 {
+        font-size: 2rem;
+    }
+    
+    .control-panel {
+        gap: 15px;
+    }
+    
+    .section-card {
+        padding: 15px;
+    }
+    
+    .footer {
+        margin-top: 20px;
+        padding: 15px;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 10px;
     }
 
     .logo h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+
+    .control-panel {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "url-section"
+            "add-section"
+            "action-section"
+            "status-section";
     }
 
     .form-grid {
@@ -433,7 +491,7 @@ select:focus {
 
     .tech-info {
         flex-direction: column;
-        gap: 15px;
+        gap: 12px;
     }
 
     .theme-toggle {
@@ -450,7 +508,7 @@ select:focus {
 
 @media (max-width: 480px) {
     .header-section {
-        padding: 20px 15px;
+        padding: 15px 10px;
     }
 
     .logo h1 {
@@ -458,16 +516,16 @@ select:focus {
     }
 
     .subtitle {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .section-card {
-        padding: 20px;
+        padding: 12px;
     }
 
     .btn-large {
-        padding: 15px 25px;
-        font-size: 16px;
+        padding: 12px 20px;
+        font-size: 14px;
     }
 }
 
