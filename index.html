@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Auto Refresh URL</title>
+    <title>Auto Refresh URL - Never Stop</title>
     <meta charset="UTF-8">
     <style>
         body {
@@ -38,152 +38,85 @@
             margin-top: 20px;
             font-weight: bold;
         }
-        .url-selector {
-            margin: 20px 0;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-        }
-        .url-option {
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .url-option input[type="radio"] {
-            margin-right: 10px;
-        }
-        .url-option label {
-            cursor: pointer;
-            font-size: 14px;
-        }
     </style>
     <script>
         let newWindow = null;
         let refreshInterval = null;
         let isRunning = false;
 
-        function startAutoRefresh() {
-            if (isRunning) {
-                console.log("Already running!");
-                return;
-            }
-            
-            console.log("Starting auto refresh...");
-            const url = "https://github.com/rksingh1713";
-            
-            try {
+        function openOrReopen(url) {
+            // If tab is closed → open again
+            if (!newWindow || newWindow.closed) {
                 newWindow = window.open(url, "_blank");
-                console.log("Window opened:", newWindow);
-                
-                if (newWindow) {
-                    console.log("Setting up interval...");
-                    refreshInterval = setInterval(() => {
-                        console.log("Checking window status...");
-                        if (newWindow && !newWindow.closed) {
-                            console.log("Reloading window...");
-                            try {
-                                newWindow.location.reload();
-                            } catch (e) {
-                                console.error("Error reloading:", e);
-                                // Cross-origin error se bachne ke liye
-                                newWindow.location.href = url;
-                            }
-                        } else {
-                            console.log("Window closed, stopping refresh");
-                            stopAutoRefresh();
-                        }
-                    }, 1000);
-
-                    isRunning = true;
-                    updateStatus();
-                    console.log("Auto refresh started successfully!");
-                } else {
-                    console.error("Failed to open window - popup blocked");
-                    alert("Popup blocked! Please allow popups for this site and try again.");
-                }
-            } catch (error) {
-                console.error("Error starting auto refresh:", error);
-                alert("Error: " + error.message);
             }
         }
 
+        function startAutoRefresh() {
+            if (isRunning) return;
+            const url = "https://github.com/rksingh1713";
+            
+            openOrReopen(url);
+
+            refreshInterval = setInterval(() => {
+                try {
+                    // If tab is open → refresh it
+                    if (newWindow && !newWindow.closed) {
+                        newWindow.location.href = url;
+                    } else {
+                        // Tab closed → reopen it
+                        openOrReopen(url);
+                    }
+                } catch (e) {
+                    // Cross-origin issue → just reopen the tab
+                    openOrReopen(url);
+                }
+            }, 1000); // refresh every 1 second
+
+            isRunning = true;
+            updateStatus();
+        }
+
         function stopAutoRefresh() {
-            console.log("Stopping auto refresh...");
-            if (refreshInterval) {
-                clearInterval(refreshInterval);
-                refreshInterval = null;
-                console.log("Interval cleared");
-            }
+            clearInterval(refreshInterval);
+            refreshInterval = null;
             if (newWindow && !newWindow.closed) {
                 newWindow.close();
-                console.log("Window closed");
             }
             newWindow = null;
             isRunning = false;
             updateStatus();
-            console.log("Auto refresh stopped");
         }
 
         function updateStatus() {
             const statusElement = document.getElementById('status');
             const startBtn = document.getElementById('startBtn');
             const stopBtn = document.getElementById('stopBtn');
-            
+
             if (isRunning) {
-                statusElement.textContent = "✅ Auto refresh chal raha hai - GitHub profile har second refresh ho raha hai";
+                statusElement.textContent = "✅ Auto refresh is running - will never stop";
                 statusElement.style.color = "green";
                 startBtn.disabled = true;
                 stopBtn.disabled = false;
             } else {
-                statusElement.textContent = "❌ Auto refresh band hai";
+                statusElement.textContent = "❌ Auto refresh is stopped";
                 statusElement.style.color = "red";
                 startBtn.disabled = false;
                 stopBtn.disabled = true;
             }
         }
 
-        window.onload = function() {
-            updateStatus();
-        }
+        window.onload = updateStatus;
     </script>
 </head>
 <body>
     <div class="container">
-        <h2>GitHub Profile Auto Refresh</h2>
-        <p>Yeh program aapka GitHub profile new tab mein kholega aur har second refresh karega.</p>
+        <h2>GitHub Profile Auto Refresh - Never Stop Version</h2>
+        <p>This script opens your GitHub profile in a new tab and refreshes it forever. If the tab is closed, it will reopen automatically.</p>
         
-        <button id="startBtn" class="start-btn" onclick="startAutoRefresh()">
-            🚀 Start Auto Refresh
-        </button>
-        
-        <button id="stopBtn" class="stop-btn" onclick="stopAutoRefresh()">
-            ⏹️ Stop Auto Refresh
-        </button>
+        <button id="startBtn" class="start-btn" onclick="startAutoRefresh()">🚀 Start Auto Refresh</button>
+        <button id="stopBtn" class="stop-btn" onclick="stopAutoRefresh()">⏹️ Stop Auto Refresh</button>
         
         <div id="status" class="status"></div>
-        
-        <div style="margin-top: 30px; font-size: 14px; color: #666;">
-            <p><strong>Instructions:</strong></p>
-            <ul style="text-align: left; display: inline-block;">
-                <li>Start button dabane se GitHub profile new tab mein khulega</li>
-                <li>Har second automatically refresh hoga</li>
-                <li>Stop button se refresh band kar sakte hain</li>
-                <li>Agar popup block ho jaye to browser settings mein allow kar dein</li>
-                <li><strong>Debug:</strong> Browser ke Developer Tools (F12) mein Console check karein</li>
-            </ul>
-        </div>
-        
-        <div style="margin-top: 20px; padding: 10px; background: #e8f4f8; border-radius: 5px; font-size: 12px;">
-            <p><strong>Troubleshooting:</strong></p>
-            <ol style="text-align: left; display: inline-block;">
-                <li>F12 dabaye aur Console tab open kariye</li>
-                <li>Start button click kariye</li>
-                <li>Console mein messages dekh kar problem identify kar sakte hain</li>
-                <li>Agar "popup blocked" message aaye to browser settings mein popups allow kariye</li>
-            </ol>
-        </div>
     </div>
 </body>
 </html>
