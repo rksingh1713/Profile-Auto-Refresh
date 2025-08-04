@@ -8,6 +8,61 @@ const protectedUrls = [
     "https://github.com/rksingh1713"
 ];
 
+// URL Storage Management
+function saveUrlsToStorage() {
+    const urlSelect = document.getElementById('urlSelect');
+    const urls = [];
+    
+    for (let i = 0; i < urlSelect.options.length; i++) {
+        const option = urlSelect.options[i];
+        urls.push({
+            value: option.value,
+            text: option.textContent
+        });
+    }
+    
+    localStorage.setItem('savedUrls', JSON.stringify(urls));
+    localStorage.setItem('selectedUrl', selectedUrl);
+}
+
+function loadUrlsFromStorage() {
+    const savedUrls = localStorage.getItem('savedUrls');
+    const savedSelectedUrl = localStorage.getItem('selectedUrl');
+    
+    if (savedUrls) {
+        const urls = JSON.parse(savedUrls);
+        const urlSelect = document.getElementById('urlSelect');
+        
+        // Clear existing options except protected ones
+        urlSelect.innerHTML = '';
+        
+        // Add all saved URLs
+        urls.forEach(url => {
+            const option = document.createElement('option');
+            option.value = url.value;
+            option.textContent = url.text;
+            urlSelect.appendChild(option);
+        });
+        
+        // Set selected URL
+        if (savedSelectedUrl && urlSelect.querySelector(`option[value="${savedSelectedUrl}"]`)) {
+            urlSelect.value = savedSelectedUrl;
+            selectedUrl = savedSelectedUrl;
+        }
+    } else {
+        // If no URLs are saved, ensure default URL exists
+        const urlSelect = document.getElementById('urlSelect');
+        if (urlSelect.options.length === 0) {
+            const option = document.createElement('option');
+            option.value = "https://github.com/rksingh1713";
+            option.textContent = "My GitHub Profile";
+            urlSelect.appendChild(option);
+            selectedUrl = "https://github.com/rksingh1713";
+            saveUrlsToStorage();
+        }
+    }
+}
+
 // Theme Management
 function toggleTheme() {
     const body = document.body;
@@ -42,6 +97,9 @@ function updateSelectedUrl() {
     const urlSelect = document.getElementById('urlSelect');
     selectedUrl = urlSelect.value;
     
+    // Save to localStorage
+    saveUrlsToStorage();
+    
     // Update delete button state when URL changes
     updateDeleteButtonState();
     
@@ -62,40 +120,64 @@ function addNewUrl() {
     const url = newUrlInput.value.trim();
     const name = newUrlName.value.trim();
     
+    console.log('Adding new URL:', url, 'with name:', name); // Debug log
+    
     if (url === '' || name === '') {
-        showNotification('Please enter both URL and display name', 'error');
+        showNotification('Please enter both URL and Display Name', 'error');
         return;
     }
     
-    // Basic URL validation
+    // Basic URL validation - make it more flexible
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        showNotification('URL must start with http:// or https://', 'error');
+        // Auto-add https:// if missing
+        const correctedUrl = 'https://' + url;
+        newUrlInput.value = correctedUrl;
+        showNotification('URL corrected with https:// prefix', 'warning');
         return;
     }
     
-    // Check if URL already exists
+    // Check if URL already exists - case insensitive comparison
+    let urlExists = false;
     for (let i = 0; i < urlSelect.options.length; i++) {
-        if (urlSelect.options[i].value === url) {
-            showNotification('This URL already exists in the list!', 'error');
-            return;
+        if (urlSelect.options[i].value.toLowerCase() === url.toLowerCase()) {
+            urlExists = true;
+            break;
         }
     }
     
-    // Add new option to dropdown
-    const option = document.createElement('option');
-    option.value = url;
-    option.textContent = name;
-    urlSelect.appendChild(option);
+    if (urlExists) {
+        showNotification('This URL already exists in the list!', 'error');
+        return;
+    }
     
-    // Select the newly added option
-    urlSelect.value = url;
-    selectedUrl = url;
-    
-    // Clear input fields
-    newUrlInput.value = '';
-    newUrlName.value = '';
-    
-    showNotification('Target deployed successfully!', 'success');
+    try {
+        // Add new option to dropdown
+        const option = document.createElement('option');
+        option.value = url;
+        option.textContent = name;
+        urlSelect.appendChild(option);
+        
+        // Select the newly added option
+        urlSelect.value = url;
+        selectedUrl = url;
+        
+        // Save to localStorage
+        saveUrlsToStorage();
+        
+        // Clear input fields
+        newUrlInput.value = '';
+        newUrlName.value = '';
+        
+        // Update delete button state
+        updateDeleteButtonState();
+        
+        showNotification(`"${name}" successfully added to targets!`, 'success');
+        console.log('URL successfully added:', url); // Debug log
+        
+    } catch (error) {
+        console.error('Error adding URL:', error);
+        showNotification('Error occurred while adding URL', 'error');
+    }
 }
 
 function deleteSelectedUrl() {
@@ -136,6 +218,9 @@ function deleteSelectedUrl() {
         urlSelect.selectedIndex = 0;
         updateSelectedUrl();
     }
+    
+    // Save to localStorage
+    saveUrlsToStorage();
     
     showNotification(`"${selectedOptionText}" has been terminated successfully!`, 'success');
 }
@@ -266,9 +351,29 @@ document.head.appendChild(style);
 // Initialize on page load
 window.onload = function() {
     initializeTheme();
+    
+    // Load saved URLs first
+    loadUrlsFromStorage();
+    
     updateSelectedUrl();
     updateStatus();
     updateDeleteButtonState();
+    
+    // Add Enter key support for input fields
+    const newUrlInput = document.getElementById('newUrlInput');
+    const newUrlName = document.getElementById('newUrlName');
+    
+    newUrlInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            addNewUrl();
+        }
+    });
+    
+    newUrlName.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            addNewUrl();
+        }
+    });
     
     // Add some startup effects
     setTimeout(() => {
